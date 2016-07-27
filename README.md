@@ -26,9 +26,11 @@ Major components:
 
  Workflow:
 -- define data structures
-    -- cards
-    -- players
-    -- 'players chips
+    -- card
+    -- hand
+    -- player
+    -- stash
+    -- table
 -- implement deck management
 -- implement rudimentary GUI
 -- implement stash management
