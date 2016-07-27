@@ -1,0 +1,15 @@
+# Pre-parsed Python
+__pycache__
+
+# Virtualenvs
+venv
+
+# PyCharm Temporary Files
+.idea
+.cache
+
+# Django Default DB
+db.sqlite3
+
+# macOS
+.DS_Store
