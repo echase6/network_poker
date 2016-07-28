@@ -5,8 +5,6 @@ The stash will have all chip denominations populated, even if quantity is zero.
 Initial stash for a player is two '50' chips.
 """
 
-from chip import Chip
-
 
 class Stash:
     def __init__(self):

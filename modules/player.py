@@ -11,14 +11,17 @@ class Player:
         self.name = name,
         self.hand = Hand()
         self.stash = Stash()
+        self.status = 'play'
 
     def __repr__(self):
         """Implements the repr() function.
 
         >>> repr(Player('Eric'))
-        Player('Eric', Hand([]), Stash({'1': 0, '5': 0, '10': 0, '25': 0, '50': 2}
+        Player('Eric', Hand([]),
+        ...    Stash({'1': 0, '5': 0, '10': 0, '25': 0, '50': 2}), 'play')
          """
-        return 'Player({})'.format(self.name, self.hand, self.stash)
+        return 'Player({})'.format(self.name, self.hand,
+                                   self.stash, self.status)
 
     def __eq__(self, other):
         """Implement the equality function.
@@ -31,5 +34,6 @@ class Player:
         return (
             self.name == other.name and
             self.hand == other.hand and
-            self.stash == other.stash
+            self.stash == other.stash and
+            self.status == other.status
         )

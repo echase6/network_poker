@@ -4,8 +4,6 @@ The pot is a dictionary of chip: quantity pairs.
 The pot will have all chip denominations populated, even if quantity is zero.
 """
 
-from chip import Chip
-
 
 class Pot:
     def __init__(self):
