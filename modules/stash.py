@@ -8,21 +8,15 @@ Initial stash for a player is two '50' chips.
 
 class Stash:
     def __init__(self):
-        self.chips = ({
-             '50': 2,
-             '25': 0,
-             '10': 0,
-             '5': 0,
-             '1': 0
-        })
+        self.value = 100
 
     def __repr__(self):
         """Implements the repr() function.
 
-        >>> sorted(Stash().chips.items())
-        [('1', 0), ('10', 0), ('25', 0), ('5', 0), ('50', 2)]
+        >>> repr(Stash())
+        'Stash(100)'
          """
-        return 'Stash({})'.format(self.chips)
+        return 'Stash({})'.format(self.value)
 
     def __eq__(self, other):
         """Implement the equality function.
@@ -31,8 +25,8 @@ class Stash:
         True
         >>> a = Stash()
         >>> b = Stash()
-        >>> a.chips['25'] = 2
+        >>> a.value = 2
         >>> a == b
         False
         """
-        return self.chips == other.chips
+        return self.value == other.value

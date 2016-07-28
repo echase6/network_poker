@@ -7,21 +7,15 @@ The pot will have all chip denominations populated, even if quantity is zero.
 
 class Pot:
     def __init__(self):
-        self.chips = ({
-             '50': 0,
-             '25': 0,
-             '10': 0,
-             '5': 0,
-             '1': 0
-        })
+        self.value = 0
 
     def __repr__(self):
         """Implements the repr() function.
 
-        >>> sorted(Pot().chips.items())
-        [('1', 0), ('10', 0), ('25', 0), ('5', 0), ('50', 0)]
-         """
-        return 'Pot({})'.format(self.chips)
+        >>> repr(Pot())
+        'Pot(0)'
+        """
+        return 'Pot({})'.format(self.value)
 
     def __eq__(self, other):
         """Implement the equality function.
@@ -30,8 +24,8 @@ class Pot:
         True
         >>> a = Pot()
         >>> b = Pot()
-        >>> a.chips['25'] = 2
+        >>> a.value = 25
         >>> a == b
         False
         """
-        return self.chips == other.chips
+        return self.value == other.value

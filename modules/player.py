@@ -1,5 +1,6 @@
 """The Player class, which contains the hand, stash and status of one player.
 
+Initially, hand has no cards, stash has value of 100, and status is 'play'
 """
 
 from hand import Hand
@@ -8,7 +9,7 @@ from stash import Stash
 
 class Player:
     def __init__(self, name):
-        self.name = name,
+        self.name = name
         self.hand = Hand()
         self.stash = Stash()
         self.status = 'play'
@@ -17,11 +18,10 @@ class Player:
         """Implements the repr() function.
 
         >>> repr(Player('Eric'))
-        Player('Eric', Hand([]),
-        ...    Stash({'1': 0, '5': 0, '10': 0, '25': 0, '50': 2}), 'play')
+        'Player(Eric, Hand([]), Stash(100), play)'
          """
-        return 'Player({})'.format(self.name, self.hand,
-                                   self.stash, self.status)
+        return 'Player({}, {}, {}, {})'.format(self.name, self.hand,
+                                               self.stash, self.status)
 
     def __eq__(self, other):
         """Implement the equality function.
