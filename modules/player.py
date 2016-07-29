@@ -1,5 +1,7 @@
-"""The Player class, which contains the hand, stash and status of one player.
+"""The Player class, containing the name, hand, stash and status of one player.
 
+When network ports are implemented this may contain the port ID as well.
+Name get passed to it when first instantiated.
 Initially, hand has no cards, stash has value of 100, and status is 'play'
 """
 
@@ -10,7 +12,7 @@ from stash import Stash
 class Player:
     def __init__(self, name):
         self.name = name
-        self.hand = Hand()
+        self.hand = Hand([])
         self.stash = Stash()
         self.status = 'play'
 

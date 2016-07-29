@@ -1,8 +1,7 @@
-"""The Stash class, which is the quantity of chips for one player.
+"""The Stash class, which is the value of chips for one player.
 
-The stash is a dictionary of chip: quantity pairs.
-The stash will have all chip denominations populated, even if quantity is zero.
-Initial stash for a player is two '50' chips.
+The stash has a single variable 'value' representing dollars.
+Initial stash for a player is 100.
 """
 
 

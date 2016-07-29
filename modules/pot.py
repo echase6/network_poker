@@ -1,7 +1,7 @@
-"""The Pot class, which is the quantity of chips that have been better.
+"""The Pot class, which is the value of chips in the pot.
 
-The pot is a dictionary of chip: quantity pairs.
-The pot will have all chip denominations populated, even if quantity is zero.
+The pot has a single variable 'value' representing dollars.
+Initial pot is 0.
 """
 
 

@@ -1,4 +1,18 @@
-"""Chip management functions."""
+"""Chip management functions.
+
+
+place_bet() manages chip motion when placing a bet.
+  Modifies player and pot in-place.
+  Returns True if the bet could be placed (based on amount), False otherwise.
+
+calc_chips()
+  Returns a chip dict with the quantity of chips for a given value.
+
+collect_winnings()
+  Move the winnings to the player.
+  Modifies player and pot in-place.
+
+"""
 
 from stash import Stash
 from player import Player

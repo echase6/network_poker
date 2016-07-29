@@ -1,6 +1,8 @@
 """The Table class, which contains the players, the deck, a kitty and a pot.
 
 Initializes to no players, and un-shuffled deck, and an pot with 0 value.
+str() function renders the table.  Needs to be changed to show the hidden
+  card only for the player.
 """
 
 from player import Player
