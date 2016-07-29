@@ -6,8 +6,8 @@ from random import shuffle
 
 
 class Deck:
-    def __init__(self, deck_of_cards):
-        self.deck_of_cards = deck_of_cards
+    def __init__(self, cards):
+        self.cards = cards
 
 
     def __eq__(self, other):
@@ -24,7 +24,7 @@ class Deck:
         False
         """
         return(
-            self.deck_of_cards == other.deck_of_cards
+            self.cards == other.cards
         )
 
 
@@ -34,7 +34,7 @@ class Deck:
         "Deck([Card('H', '5'), Card('C', '2')])"
         """
         return 'Deck({!r})'.format(
-            self.deck_of_cards
+            self.cards
         )
 
 
@@ -52,9 +52,9 @@ def generate_deck(suits, ranks):
 
 def shuffle_the_deck(deck):
     """relies on the random library shuffle function to reliably randomize the order of cards"""
-    shuffle(deck.deck_of_cards)
+    shuffle(deck.cards)
 
 
 def draw_card_from_deck(deck):
     """draws a card from the deck"""
-    return deck.deck_of_cards.pop()
+    return deck.cards.pop()
