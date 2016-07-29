@@ -5,8 +5,7 @@ from deck import draw_card_from_deck
 from card import Card
 
 RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
-# ranks + index val for reference
-# RANKS = (0, 2), (1, 3), (2, 4), (3, 5), (4, 6), (5, 7), (6, 8), (7, 9), (8, 10), (9, J), (10, Q), (11, K), (12, A)
+
 
 class Hand:
     def __init__(self, hand_list):
@@ -58,6 +57,7 @@ def generate_hand(deck):
 #     Three of a kind
 #     pair
 
+
 def _check_for_4_of_a_kind(hand):
     """checks to see if the hand has four like cards
 
@@ -85,10 +85,37 @@ def _check_for_full_house(hand):
     False
     """
     output = False
+    pair_truth = False
+    trips_truth = False
     grouping = group_by(hand.hand_list, rank_key)
     for item in grouping:
         grouping[item] = len(grouping[item])
-    
+    for item in grouping:
+        if grouping[item] == 3:
+            trips_truth = True
+        elif grouping[item] == 2:
+            pair_truth = True
+    if pair_truth is True and trips_truth is True:
+        output = True
+    return output
+
+
+def _check_for_three(hand):
+    """checks to see if a players hand has three of a kind
+
+    >>> _check_for_full_house(Hand([Card('H', '10'), Card('C', '10'), Card('S', 'A'), Card('D', '10'), Card('H', 'A')]))
+    True
+    >>> _check_for_full_house(Hand([Card('H', '9'), Card('C', '10'), Card('S', '10'), Card('D', '10'), Card('H', 'A')]))
+    False
+    """
+    output = False
+    grouping = group_by(hand.hand_list, rank_key)
+    for item in grouping:
+        grouping[item] = len(grouping[item])
+    for item in grouping:
+        if grouping[item] == 3:
+            output = True
+    return output
 
 
 def _check_for_straight_flush(hand):
@@ -106,6 +133,7 @@ def _check_for_straight_flush(hand):
     else:
         output = False
     return output
+
 
 def _check_for_flush(hand):
     """checks a hand for a flush
@@ -173,6 +201,7 @@ def _check_for_royal_flush(hand):
         output = False
     return output
 
+
 def _check_royalty(hand):
     """checks if a hand contains only royal cards
 
@@ -207,6 +236,7 @@ def group_by(iterable, key):
             group_to_items[group] = []
         group_to_items[group].append(item)
     return group_to_items
+
 
 def rank_key(card):
     """generates a key for the group by function
