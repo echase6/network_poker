@@ -1,10 +1,17 @@
 """Server module manages connections to clients.
 
 Hard-coded to work with two clients, at fixed ports.
+
+start_server() starts the server sockets for each member of PORTS
+connect_client() connects each individual client, when they request to.
+message_to_client() sends a message to an individual client
+answer_from_client() reads back a message from an individual client
+send_table_to_client() packs and sends the table to the client for rendering
 """
 
 
 import socket
+import jsonpickle
 
 PORTS = [8000, 8001]
 
@@ -50,6 +57,12 @@ def answer_from_client(clientsocket):
     """
     ans_string = clientsocket.recv(1024).decode()
     return ans_string
+
+
+def send_table_to_client(table, clientsocket):
+    """Sends the table to the client for rendering."""
+    table_json = jsonpickle.encode(table)
+    clientsocket.send(table_json.encode())
 
 
 def main():
