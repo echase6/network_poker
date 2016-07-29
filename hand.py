@@ -63,8 +63,33 @@ def _check_for_4_of_a_kind(hand):
 
     >>> _check_for_4_of_a_kind(Hand([Card('H', '10'), Card('C', '10'), Card('S', '10'), Card('D', '10'), Card('H', 'A')]))
     True
+    >>> _check_for_4_of_a_kind(Hand([Card('H', '9'), Card('C', '10'), Card('S', '10'), Card('D', '10'), Card('H', 'A')]))
+    False
     """
+    output = False
+    grouping = group_by(hand.hand_list, rank_key)
+    for item in grouping:
+        grouping[item] = len(grouping[item])
+    for item in grouping:
+        if grouping[item] == 4:
+            output = True
+    return output
+
+
+def _check_for_full_house(hand):
+    """checks to see if there is a full house in the hand
+
+    >>> _check_for_full_house(Hand([Card('H', '10'), Card('C', '10'), Card('S', 'A'), Card('D', '10'), Card('H', 'A')]))
+    True
+    >>> _check_for_full_house(Hand([Card('H', '9'), Card('C', '10'), Card('S', '10'), Card('D', '10'), Card('H', 'A')]))
+    False
+    """
+    output = False
+    grouping = group_by(hand.hand_list, rank_key)
+    for item in grouping:
+        grouping[item] = len(grouping[item])
     
+
 
 def _check_for_straight_flush(hand):
     """Returns true if a hand has a straight flush in it
@@ -170,3 +195,23 @@ def _check_royalty(hand):
     else:
         output = False
     return output
+
+
+def group_by(iterable, key):
+    """Place each item in an iterable into a bucket based on calling the key
+    function on the item."""
+    group_to_items = {}
+    for item in iterable:
+        group = key(item)
+        if group not in group_to_items:
+            group_to_items[group] = []
+        group_to_items[group].append(item)
+    return group_to_items
+
+def rank_key(card):
+    """generates a key for the group by function
+
+    >>> rank_key(Card('C', '10'))
+    '10'
+    """
+    return card.rank
