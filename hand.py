@@ -45,17 +45,54 @@ def generate_hand(deck):
     """
     return Hand([draw_card_from_deck(deck), draw_card_from_deck(deck)])
 
-# def compare_hands(hand_1, hand_2):
-#     """compares hands to check for a winner"""
-#     ##win conditions royal flush > straight flush > flush > straight >
-#     Royal flush.A, K, Q, J, 10, all
-#     Straight flush
-#     Four of akind
-#     Full house
-#     Flush
-#     Straight
-#     Three of a kind
-#     pair
+
+def compare_hands(hand_1, hand_2):
+    """takes two hands and checks for a winner"""
+    _assi
+
+
+def _assign_hand_rank(hand):
+    """Assigns a hand a rank for future comparison"""
+    if _check_for_royal_flush(hand):
+        score = 10
+    elif _check_for_straight_flush(hand):
+        score = 9
+    elif _check_for_4_of_a_kind(hand):
+        score = 8
+    elif _check_for_full_house(hand):
+        score = 7
+    elif _check_for_flush(hand):
+        score = 6
+    elif _check_for_straight(hand):
+        score = 5
+    elif _check_for_three(hand):
+        score = 4
+    elif _check_for_2_pair(hand):
+        score = 3
+    elif _check_for_two(hand):
+        score = 2
+    else:
+        score = 1
+
+def _check_for_2_pair(hand):
+    """checks for the presence
+
+    >>> _check_for_2_pair(Hand([Card('H', '10'), Card('C', '10'), Card('S', 'A'), Card('D', '9'), Card('H', 'A')]))
+    True
+    >>> _check_for_2_pair(Hand([Card('H', '2'), Card('C', '3'), Card('S', '4'), Card('D', '10'), Card('H', 'A')]))
+    False
+    """
+    output = False
+    grouping = group_by(hand.hand_list, rank_key)
+    for item in grouping:
+        grouping[item] = len(grouping[item])
+    card_counts = []
+    for item in grouping:
+        card_counts.append(grouping[item])
+    card_counts = sorted(card_counts)
+    if card_counts[2] == 2 and card_counts[1] == 2:
+        output = True
+    return output
 
 
 def _check_for_4_of_a_kind(hand):
@@ -103,9 +140,9 @@ def _check_for_full_house(hand):
 def _check_for_three(hand):
     """checks to see if a players hand has three of a kind
 
-    >>> _check_for_full_house(Hand([Card('H', '10'), Card('C', '10'), Card('S', 'A'), Card('D', '10'), Card('H', 'A')]))
+    >>> _check_for_three(Hand([Card('H', '10'), Card('C', '10'), Card('S', 'A'), Card('D', '10'), Card('H', 'A')]))
     True
-    >>> _check_for_full_house(Hand([Card('H', '9'), Card('C', '10'), Card('S', '10'), Card('D', '10'), Card('H', 'A')]))
+    >>> _check_for_three(Hand([Card('H', '9'), Card('C', '5'), Card('S', '10'), Card('D', '10'), Card('H', 'A')]))
     False
     """
     output = False
@@ -114,6 +151,24 @@ def _check_for_three(hand):
         grouping[item] = len(grouping[item])
     for item in grouping:
         if grouping[item] == 3:
+            output = True
+    return output
+
+
+def _check_for_two(hand):
+    """checks to see if a players hand has three of a kind
+
+    >>> _check_for_two(Hand([Card('H', '10'), Card('C', '9'), Card('S', '3'), Card('D', '10'), Card('H', 'A')]))
+    True
+    >>> _check_for_three(Hand([Card('H', '9'), Card('C', '5'), Card('S', '10'), Card('D', '7'), Card('H', 'A')]))
+    False
+    """
+    output = False
+    grouping = group_by(hand.hand_list, rank_key)
+    for item in grouping:
+        grouping[item] = len(grouping[item])
+    for item in grouping:
+        if grouping[item] == 2:
             output = True
     return output
 
@@ -236,6 +291,10 @@ def group_by(iterable, key):
             group_to_items[group] = []
         group_to_items[group].append(item)
     return group_to_items
+
+
+def _group_by_length(grouping):
+    """simplifies the group by output when checking for pairs/triplets/quads"""
 
 
 def rank_key(card):
