@@ -13,3 +13,6 @@ db.sqlite3
 
 # macOS
 .DS_Store
+
+# garbage files
+*.old
