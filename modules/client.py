@@ -39,7 +39,7 @@ def answer_to_server(msg_string, server):
     server.send(msg_string.encode())
 
 
-def render_table(table_json):
+def render_table(table_json, port):
     """Render the table from received json file.
 
     This shares code from the previously-written Table class __str__()
@@ -48,18 +48,20 @@ def render_table(table_json):
     table = jsonpickle.decode(table_json)
     out_string_list = []
     for player in table.players:
-        out_string = ''
-        out_string += 'Name: {:10s}  Hand: X-X '.format(player.name)
-        for card in player.hand.hand_list[1:]:
-            out_string += '{}-{} '.format(card.rank, card.suit).ljust(20)
-        out_string += 'Stash: {}   Status: {}'.format(player.stash.value,
-                                                      player.status)
+        out_string = 'Name: {:10s}  Hand: '.format(player.name)
+        out_string += ''.join(['{}-{} '.format(c.rank, c.suit)
+                               for c in player.hand.hand_list]).ljust(24)
+        out_string += 'Stash: {}  Status: {}'.format(player.stash.value,
+                                                     player.status)
+        if player.port != port:
+            out_string = 'X-X'.join([out_string[:24], out_string[27:]])
         out_string_list += [out_string]
-    pot_string = ' '*10 + 'Pot: {}'.format(table.pot.value)
+    pot_string = ' '*10 + 'Pot: {}   Hand #: {}'.format(table.pot.value,
+                                                      table.hand_num)
     return '\n\n'.join([out_string_list[0], pot_string, out_string_list[1]])
 
 
-def process_server_message(msg, server):
+def process_server_message(msg, server, port):
     """Analyzes and acts on the content of a message from the server.
 
     Valid actions are:
@@ -68,7 +70,7 @@ def process_server_message(msg, server):
       displaying a message
     """
     if msg[0] == '{':  # Don't expect this to work just yet...
-        print(render_table(msg))
+        print(render_table(msg, port))
     elif msg[-1] == '?':
         answer = input(msg)
         answer_to_server(answer, server)
@@ -81,7 +83,7 @@ def main():
     while True:
         message = message_from_server(socket)
         if len(message) > 0:
-            process_server_message(message, socket)
+            process_server_message(message, socket, port)
 
 
 if __name__ == '__main__':
