@@ -87,11 +87,8 @@ def _check_for_2_pair(hand):
     grouping = group_by(hand.hand_list, rank_key)
     for item in grouping:
         grouping[item] = len(grouping[item])
-    card_counts = []
-    for item in grouping:
-        card_counts.append(grouping[item])
-    card_counts = sorted(card_counts)
-    if card_counts[2] == 2 and card_counts[1] == 2:
+    temp = [grouping[item] for item in grouping if grouping[item] == 2]
+    if len(temp) == 2:
         output = True
     return output
 
@@ -164,13 +161,10 @@ def _check_for_two(hand):
     >>> _check_for_three(Hand([Card('H', '9'), Card('C', '5'), Card('S', '10'), Card('D', '7'), Card('H', 'A')]))
     False
     """
-    output = False
     grouping = group_by(hand.hand_list, rank_key)
     for item in grouping:
         grouping[item] = len(grouping[item])
-    for item in grouping:
-        if grouping[item] == 2:
-            output = True
+    output = any(grouping[item] == 2 for item in grouping)
     return output
 
 
@@ -202,12 +196,6 @@ def _check_for_flush(hand):
     """
     suit_checker = hand.hand_list[0].suit
     truth_check = all(card.suit == suit_checker for card in hand.hand_list)
-    # truth_check = ''
-    # for card in hand.hand_list:
-    #     if card.suit == suit_checker:
-    #         truth_check = True
-    #     else:
-    #         truth_check = False
     return truth_check
 
 
