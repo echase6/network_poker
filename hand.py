@@ -73,6 +73,7 @@ def _assign_hand_rank(hand):
         score = 2
     else:
         score = 1
+    return score
 
 def _check_for_2_pair(hand):
     """checks for the presence
@@ -200,12 +201,13 @@ def _check_for_flush(hand):
     False
     """
     suit_checker = hand.hand_list[0].suit
-    truth_check = ''
-    for card in hand.hand_list:
-        if card.suit == suit_checker:
-            truth_check = True
-        else:
-            truth_check = False
+    truth_check = all(card.suit == suit_checker for card in hand.hand_list)
+    # truth_check = ''
+    # for card in hand.hand_list:
+    #     if card.suit == suit_checker:
+    #         truth_check = True
+    #     else:
+    #         truth_check = False
     return truth_check
 
 
