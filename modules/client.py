@@ -67,21 +67,21 @@ def process_server_message(msg, server):
       asking a question and sending response to server (msg ends with a ?)
       displaying a message
     """
-    if msg[1:6] == 'Table':  # Don't expect this to work just yet...
-        render_table(msg)
+    if msg[0] == '{':  # Don't expect this to work just yet...
+        print(render_table(msg))
     elif msg[-1] == '?':
         answer = input(msg)
         answer_to_server(answer, server)
     else:
         print(msg)
-    return
 
 
 def main():
     socket, port = connect_to_server()
     while True:
         message = message_from_server(socket)
-        process_server_message(message, socket)
+        if len(message) > 0:
+            process_server_message(message, socket)
 
 
 if __name__ == '__main__':

@@ -10,8 +10,9 @@ from stash import Stash
 
 
 class Player:
-    def __init__(self, name):
+    def __init__(self, name, port):
         self.name = name
+        self.port = port
         self.hand = Hand([])
         self.stash = Stash()
         self.status = 'play'
@@ -19,22 +20,24 @@ class Player:
     def __repr__(self):
         """Implements the repr() function.
 
-        >>> repr(Player('Eric'))
-        'Player(Eric, Hand([]), Stash(100), play)'
+        >>> repr(Player('Eric', 8000))
+        'Player(Eric, 8000, Hand([]), Stash(100), play)'
          """
-        return 'Player({}, {}, {}, {})'.format(self.name, self.hand,
-                                               self.stash, self.status)
+        return 'Player({}, {}, {}, {}, {})'.format(self.name, self.port,
+                                                   self.hand, self.stash,
+                                                   self.status)
 
     def __eq__(self, other):
         """Implement the equality function.
 
-        >>> Player('Eric') == Player('Eric')
+        >>> Player('Eric', 8000) == Player('Eric', 8000)
         True
-        >>> Player('Stephen') == Player('Eric')
+        >>> Player('Stephen', 8001) == Player('Eric', 8000)
         False
         """
         return (
             self.name == other.name and
+            self.port == other.port and
             self.hand == other.hand and
             self.stash == other.stash and
             self.status == other.status

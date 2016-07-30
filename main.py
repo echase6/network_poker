@@ -1,3 +1,4 @@
+import jsonpickle
 from card import Card, SUITS, RANKS
 from hand import Hand, generate_hand
 from stash import Stash
@@ -5,18 +6,27 @@ from pot import Pot
 from player import Player
 from table import Table
 from deck import Deck, generate_deck, shuffle_the_deck
+from server import start_server, connect_client, message_to_client
+from server import answer_from_client, send_table_to_client, PORTS
 
 
 def main():
     deck = generate_deck(SUITS, RANKS)
     shuffle_the_deck(deck)
     t = Table()
-    a = Player('Eric')
-    a.hand = generate_hand(deck)
-    b = Player('Stephen')
-    b.hand = generate_hand(deck)
-    t.players = [a, b]
+    t.players = []
+    sockets = start_server()
+    clients = [connect_client(s) for s in sockets]
+    for i, client in enumerate(clients):
+        message_to_client('What is your name?', client)
+        name = answer_from_client(client)
+        print('{} joined'.format(name))
+        player = Player(name, PORTS[i])
+        player.hand = generate_hand(deck)
+        t.players += [player]
     print(str(t))
+    for client in clients:
+        send_table_to_client(t, client)
 
 
 if __name__ == '__main__':
