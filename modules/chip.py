@@ -18,7 +18,8 @@ from stash import Stash
 from player import Player
 from pot import Pot
 
-DENOMINATIONS = ['50', '25', '10', '5', '1']
+DENOMINATIONS = ['25', '5', '1']
+COLORS = [(0, 75, 0), (0, 75, 75), (255, 255, 255)]
 
 
 def place_bet(amount, player, pot):
@@ -58,6 +59,8 @@ def place_bet(amount, player, pot):
 
 def calc_chips(amount):
     """Returns a chip dict with the quantity of chips for a given value.
+
+    Entries exist even if no chip present.
 
     >>> sorted(calc_chips(37).items())
     [('1', 2), ('10', 1), ('25', 1), ('5', 0), ('50', 0)]

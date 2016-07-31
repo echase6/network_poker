@@ -22,6 +22,7 @@ update_table()
 from PIL import Image, ImageTk, ImageFont, ImageDraw
 from tkinter import PhotoImage, Tk, Canvas
 from card import SUITS, RANKS
+from chip import calc_chips, DENOMINATIONS, COLORS
 import socket
 import jsonpickle
 
@@ -92,12 +93,12 @@ def display_blank_table():
     return canvas, table_img
 
 
-def display_card(canvas, table_image, index, player_index, card_im):
+def display_card(canvas, table_img, index, player_index, card_im):
     """Add card to table canvas."""
-    x_loc = 250 + index * (CARD_WIDTH + 28)
+    x_loc = 350 + index * (CARD_WIDTH + 28)
     y_loc = 100 + player_index * 280
-    table_image.paste(card_im, (x_loc, y_loc))
-    display_image(canvas, table_image)
+    table_img.paste(card_im, (x_loc, y_loc))
+    display_image(canvas, table_img)
 
 
 def display_name(canvas, table_img, name, player_index):
@@ -108,6 +109,43 @@ def display_name(canvas, table_img, name, player_index):
     draw = ImageDraw.Draw(table_img)
     draw.text((x_loc, y_loc), name, font=font, fill=(255,128,128,255))
     display_image(canvas, table_img)
+
+
+def display_chip_tray(canvas, table_img, value, player_index):
+    """Display the chip tray."""
+    x_loc = 50
+    y_loc = 50 + player_index * 400
+    tray_img = make_chip_tray_image(value)
+    table_img.paste(tray_img, (x_loc, y_loc))
+    display_image(canvas, table_img)
+
+def display_pot_tray(canvas, table_img, value):
+    """Display the pot tray."""
+    x_loc = 400
+    y_loc = 250
+    tray_img = make_chip_tray_image(value)
+    table_img.paste(tray_img, (x_loc, y_loc))
+    display_image(canvas, table_img)
+
+def make_chip_tray_image(value):
+    """Return image of chip tray, based on value."""
+    tray_img = Image.new('RGB', (200, 100), (0, 128, 0))
+    ImageDraw.Draw(tray_img).rectangle((0,0,199,99), outline=(255,255,255), fill=None)
+    chip_dia = 40
+    margin = 20
+    chip_step = 5
+    font = ImageFont.truetype('arial.ttf', 20)
+    chip_dict = calc_chips(value)
+    for index, denom in enumerate(DENOMINATIONS):
+        for chip_count in range(chip_dict[denom]):
+            x_loc = margin + index * (chip_dia + margin)
+            y_loc = 40 - chip_count * chip_step
+            chip_box = (x_loc, y_loc, x_loc + chip_dia, y_loc + chip_dia)
+            ImageDraw.Draw(tray_img).ellipse(chip_box, fill=COLORS[index], outline=(0,0,0))
+            (text_x, text_y) = ImageDraw.Draw(tray_img).textsize(denom, font=font)
+            text_loc = (x_loc + 20 - text_x // 2, y_loc + 20 - text_y // 2)
+            ImageDraw.Draw(tray_img).text((text_loc), denom, font=font, fill=(0,0,0))
+    return tray_img
 
 
 def get_card_image(card):
@@ -137,6 +175,8 @@ def update_table(table_json, canvas, table_img, port):
     table = jsonpickle.decode(table_json)
     for player_index, player in enumerate(table.players):
         display_name(canvas, table_img, player.name, player_index)
+        display_chip_tray(canvas, table_img, player.stash.value, player_index)
+        display_pot_tray(canvas, table_img, table.pot.value)
         for card_index, card in enumerate(player.hand.hand_list):
             if player.port != port and card_index == 0:
                 card_img = get_card_back()
