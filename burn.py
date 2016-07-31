@@ -19,8 +19,8 @@ class Burn:
     def __repr__(self):
         """sets the repr for the Burn class
 
-        >>> repr([Card('H', '5'), Card('C', '2')])
-        "[Card('H', '5'), Card('C', '2')]"
+        >>> repr(Burn([Card('H', '5'), Card('C', '2')]))
+        "Burn([Card('H', '5'), Card('C', '2')])"
         """
         return 'Burn({!r})'.format(
             self.burn_pile

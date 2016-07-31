@@ -27,7 +27,7 @@ class Card:
     def __repr__(self):
         """
 
-        >>> Card('H', 'K')
+        >>> __repr__(Card('H', 'K'))
         Card('H', 'K')
         """
         return 'Card({!r}, {!r})'.format(
