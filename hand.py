@@ -48,11 +48,23 @@ def generate_hand(deck):
 
 def compare_hands(hand_1, hand_2):
     """takes two hands and checks for a winner"""
-    _assi
+    hand_1_score = _assign_hand_rank(hand_1)
+    hand_2_score = _assign_hand_rank(hand_2)
+    if hand_1_score > hand_2_score:
+        output = 'P1'
+    else:
+        output = 'p2'
+    return output
 
 
 def _assign_hand_rank(hand):
-    """Assigns a hand a rank for future comparison"""
+    """Assigns a hand a rank for future comparison
+
+    >>> _assign_hand_rank(Hand([Card('H', '9'), Card('C', '10'), Card('S', '10'), Card('D', '10'), Card('H', 'A')]))
+    4
+    >>> _assign_hand_rank(Hand([Card('H', '10'), Card('H', 'J'), Card('H', 'Q'), Card('H', 'K'), Card('H', 'A')]))
+    10
+    """
     if _check_for_royal_flush(hand):
         score = 10
     elif _check_for_straight_flush(hand):
@@ -83,14 +95,11 @@ def _check_for_2_pair(hand):
     >>> _check_for_2_pair(Hand([Card('H', '2'), Card('C', '3'), Card('S', '4'), Card('D', '10'), Card('H', 'A')]))
     False
     """
-    output = False
     grouping = group_by(hand.hand_list, rank_key)
     for item in grouping:
         grouping[item] = len(grouping[item])
     temp = [grouping[item] for item in grouping if grouping[item] == 2]
-    if len(temp) == 2:
-        output = True
-    return output
+    return len(temp) == 2
 
 
 def _check_for_4_of_a_kind(hand):
@@ -101,14 +110,10 @@ def _check_for_4_of_a_kind(hand):
     >>> _check_for_4_of_a_kind(Hand([Card('H', '9'), Card('C', '10'), Card('S', '10'), Card('D', '10'), Card('H', 'A')]))
     False
     """
-    output = False
     grouping = group_by(hand.hand_list, rank_key)
     for item in grouping:
         grouping[item] = len(grouping[item])
-    for item in grouping:
-        if grouping[item] == 4:
-            output = True
-    return output
+    return any(grouping[item] == 4 for item in grouping)
 
 
 def _check_for_full_house(hand):
