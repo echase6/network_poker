@@ -51,10 +51,10 @@ def generate_deck(suits, ranks):
 
 
 def shuffle_the_deck(deck):
-    """relies on the random library shuffle function to reliably randomize the order of cards"""
+    """relies on the random library shuffle function to reliably randomize the order of cards, does this in place"""
     shuffle(deck.cards)
 
 
 def draw_card_from_deck(deck):
-    """draws a card from the deck"""
+    """Removes a card from the deck to add to the players hand"""
     return deck.cards.pop()

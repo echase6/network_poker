@@ -124,19 +124,12 @@ def _check_for_full_house(hand):
     >>> _check_for_full_house(Hand([Card('H', '9'), Card('C', '10'), Card('S', '10'), Card('D', '10'), Card('H', 'A')]))
     False
     """
-    output = False
-    pair_truth = False
-    trips_truth = False
     grouping = group_by(hand.hand_list, rank_key)
     for item in grouping:
         grouping[item] = len(grouping[item])
-    for item in grouping:
-        if grouping[item] == 3:
-            trips_truth = True
-        elif grouping[item] == 2:
-            pair_truth = True
-    if pair_truth is True and trips_truth is True:
-        output = True
+    output = (
+        any(grouping[item] == 3 for item in grouping) and
+        any(grouping[item] == 2 for item in grouping))
     return output
 
 
@@ -241,15 +234,8 @@ def _check_for_royal_flush(hand):
     flush = _check_for_flush(hand)
     straight = _check_for_straight(hand)
     royal = _check_royalty(hand)
-    if(
-        flush == True and
-        straight == True and
-        royal == True
-    ):
-        output = True
-    else:
-        output = False
-    return output
+    test = [flush, straight, royal]
+    return all(test)
 
 
 def _check_royalty(hand):
@@ -258,21 +244,10 @@ def _check_royalty(hand):
     >>> _check_royalty(Hand([Card('H', '10'), Card('H', 'J'), Card('H', 'Q'), Card('H', 'K'), Card('H', 'A')]))
     True
 
-    >>> _check_royalty(Hand([Card('H', '8'), Card('H', 'J'), Card('H', 'Q'), Card('H', 'K'), Card('H', 'A')]))
+    >>> _check_royalty(Hand([Card('H', '8'), Card('H', 'J'), Card('H', 'Q'), Card('H', 'K'), Card('H', '9')]))
     False
     """
-    ace_truthiness = False
-    ten_truthiness = False
-    for card in hand.hand_list:
-        if 'A' in card.rank:
-            ace_truthiness = True
-    for card in hand.hand_list:
-        if '10' in card.rank:
-            ten_truthiness = True
-    if ace_truthiness == True and ten_truthiness == True:
-        output = True
-    else:
-        output = False
+    output = any(card.rank in 'A' for card in hand.hand_list)
     return output
 
 

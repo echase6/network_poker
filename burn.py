@@ -6,7 +6,7 @@ from deck import Deck
 
 class Burn:
     def __init__(self, burn_pile):
-        self.burn_pile = []
+        self.burn_pile = burn_pile
 
     def __eq__(self, other):
         """tests eq
