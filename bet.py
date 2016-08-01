@@ -14,17 +14,28 @@ def bet_loop(table, clients):
     player_2 = table.players[1]
     msg_player_2 = clients[1]
     while player_1.status != 'play' and table.pot != 0:
-        message_to_client('Would you like to Fold, Raise, or Check?', player_1)
-        response = answer_from_client(player_1)
+        message_to_client('Would you like to Fold, Raise, or Check?', msg_player_1)
+        response = answer_from_client(msg_player_1)
         if response == 'Fold':
-            output = _fold() # give money to other player, ending loop
+            output = _fold(player_2, table.pot) # give money to other player, ending loop
         elif response == 'Check':
             player_1.status = 'play' # breaks out of loop, goes to player 2
         elif response == 'Raise':
             amount = _ante_raise(msg_player_1, msg_player_1) # raises
             call_or_fold(player_2, msg_player_2, amount, table.pot) # asks player_2 to call or fold, exits loop
-        elif response == 'Call':
-            _ante_call() # calls a raise, shouldn't be used first cycle
+        # elif response == 'Call':
+        #     _ante_call() # calls a raise, shouldn't be used first cycle
+    while player_2.status != 'play' and table.pot !=0:
+        message_to_client('Would you like to Fold, Raise, or Check?', msg_player_2)
+        p2_response = answer_from_client(msg_player_2)
+        if p2_response == 'Fold':
+            output = fold() # give pot to other player, ends loop
+        elif p2_response == 'Check':
+            player_2.status = 'play' #breaks out of the loop
+        elif p2_response == 'Raise':
+            p2_raise = _ante_raise(player_2, msg_player_2)
+            _call_or_fold(player_1, msg_player_1, p2_raise, table.pot, player_2)
+    return output
 
 def _ante_raise(player, msg_player):
     """asks the client how much to raise, raises the pot, returns bet amount to ask the other player"""
@@ -34,12 +45,12 @@ def _ante_raise(player, msg_player):
     return amount
 
 
-def _call_or_fold(player, msg_player, amount, pot):
+def _call_or_fold(player, msg_player, amount, pot, winner_if_fold):
     """Asks a player to call or fold"""
     message_to_client('The pot has been raised by {}, would you like to Call or Fold?'.format(amount), msg_player)
     response = answer_from_client(msg_player)
     if response == 'Fold':
-       output =  _fold(player)
+       output =  _fold(winner_if_fold, pot)
     elif response == 'Call':
         if place_bet(amount, player, pot):
             player.status = 'play'
@@ -49,6 +60,8 @@ def _call_or_fold(player, msg_player, amount, pot):
             player.status = 'play'
     return output
 
-def _fold(folding_player, winning_player, pot):
+
+def _fold(winning_player, pot):
     """Assigns the pot to the other player, returns false"""
     collect_winnings(winning_player, pot)
+    return False
