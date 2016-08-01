@@ -10,14 +10,15 @@ process_server_message() interprets the incoming info and acts appropriately
 
 """
 
-from PIL import Image, ImageTk, ImageFont, ImageDraw
-from tkinter import PhotoImage, Tk, Canvas
+# from PIL import Image, ImageTk, ImageFont, ImageDraw
+# from tkinter import PhotoImage, Tk, Canvas
 from card import SUITS, RANKS
-from chip import calc_chips, DENOMINATIONS, COLORS
+from chip import calc_chips, DENOMINATIONS, DENOM_COLORS
 from client_gui import display_image, display_blank_table, display_card
 from client_gui import display_name, get_card_back, get_card_image
 from client_gui import update_table, display_chip_tray, display_pot_tray
 from client_gui import make_chip_tray_image
+from client_gui import update_table
 import socket
 import jsonpickle
 
