@@ -129,7 +129,7 @@ def calc_card_row_col(card):
     (0, 7)
     """
     row = SUITS.index(card.suit)
-    col = RANKS.index(card.rank)
+    col = (1 + RANKS.index(card.rank)) % 13
     return row, col
 
 
