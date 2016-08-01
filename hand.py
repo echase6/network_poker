@@ -47,13 +47,18 @@ def generate_hand(deck):
 
 
 def compare_hands(hand_1, hand_2):
-    """takes two hands and checks for a winner"""
-    hand_1_score = _assign_hand_rank(hand_1)
-    hand_2_score = _assign_hand_rank(hand_2)
+    """takes two hands and checks for a winner
+
+    >>>
+    """
+    player_1 = hand_1.player.name
+    player_2 = hand_2.player.name
+    hand_1_score = _assign_hand_rank(hand_1.hand)
+    hand_2_score = _assign_hand_rank(hand_2.hand)
     if hand_1_score > hand_2_score:
-        output = 'P1'
+        output = '{}.'.format(player_1)
     else:
-        output = 'p2'
+        output = '{}'.format(player_2)
     return output
 
 
@@ -263,8 +268,8 @@ def group_by(iterable, key):
     return group_to_items
 
 
-def _group_by_length(grouping):
-    """simplifies the group by output when checking for pairs/triplets/quads"""
+# def _group_by_length(grouping):
+#     """simplifies the group by output when checking for pairs/triplets/quads"""
 
 
 def rank_key(card):

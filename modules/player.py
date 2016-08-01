@@ -7,6 +7,7 @@ Initially, hand has no cards, stash has value of 100, and status is 'play'
 
 from hand import Hand
 from stash import Stash
+from table import Table
 
 
 class Player:
@@ -42,3 +43,60 @@ class Player:
             self.stash == other.stash and
             self.status == other.status
         )
+
+    def buy_in(self, player):
+        """Charges the player 10 credits to join a round, or the remainder of their credits. Charges in place.
+
+        10 credits to join into a round
+        """
+        if player.stash.value >= 10:
+            player.stash.value -= 10
+            table.pot += 10
+        else:
+            table.pot += player.stash
+            player.stash.value -= player.stash.value
+
+
+
+# def take_action(player, player_input):
+#     """Takes player input and runs the appropriate function"""
+#     if player_input == 'check':
+#         break
+#     elif player_input == 'raise':
+#         _raise_pot()
+#     elif player_input == 'call':
+#         _call()
+#     elif player_input == 'fold':
+#         fold()
+#
+# def _raise_pot(player, player2):
+#     """removes money from stash and places in pot if possible"""
+#     amount = input('How much? ')
+#     if stash >= amount:
+#         player.stash =- amount
+#         table.pot += amount
+#         _call(player2, amount)
+#     else:
+#         print('You can\'t afford that')
+#
+# def _call(player, amount):
+#     """Allows a player to call or fold, modifies values in place"""
+#     response = input('The pot has been raised {}, would you like to call or fold? '.format(amount))
+#     if response = 'call':
+#         if player.stash >= amount:
+#             player.stash -= amount
+#             table.pot +=amount
+#         else:
+#             temp = player.stash
+#             player.stash = 0
+#             table.pot += temp
+#     if response = 'fold':
+#         break
+#
+# def _fold():
+#     """Ends round, other player wins"""
+#     assign_winner()
+
+
+
+
