@@ -36,7 +36,7 @@ def display_image(canvas, table_img):
     canvas.update()
 
 
-def display_blank_table():
+def display_window():
     """Open the window to show an empty table."""
     table_img = Image.open('./images/poker-table-felt.jpg')
     window_handle = Tk()
@@ -164,6 +164,8 @@ def update_table(table, canvas, table_img, port):
 
     Items to display: Name, chip tray, pot, cards
     """
+    table_img = Image.open('./images/poker-table-felt.jpg')
+    display_image(canvas, table_img)
     for player_index, player in enumerate(table.players):
         display_name(canvas, table_img, player.name, player_index)
         display_chip_tray(canvas, table_img, player.stash.value, player_index)

@@ -14,11 +14,11 @@ process_server_message() interprets the incoming info and acts appropriately
 # from tkinter import PhotoImage, Tk, Canvas
 from card import SUITS, RANKS
 from chip import calc_chips, DENOMINATIONS, DENOM_COLORS
-from client_gui import display_image, display_blank_table, display_card
+from client_gui import display_image, display_card
 from client_gui import display_name, get_card_back, get_card_image
 from client_gui import update_table, display_chip_tray, display_pot_tray
 from client_gui import make_chip_tray_image
-from client_gui import update_table
+from client_gui import update_table, display_window
 import socket
 import jsonpickle
 
@@ -41,7 +41,7 @@ def connect_to_server():
 
 def message_from_server(s):
     """Get (wait for) message from server."""
-    return s.recv(1024).decode()
+    return s.recv(2048).decode()
 
 
 def answer_to_server(msg_string, server):
@@ -69,7 +69,7 @@ def process_server_message(msg, server, canvas, table_img, port):
 
 def main():
     skt, port = connect_to_server()
-    canvas, table_image = display_blank_table()
+    canvas, table_image = display_window()
     while True:
         message = message_from_server(skt)
         if len(message) > 0:
