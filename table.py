@@ -51,15 +51,17 @@ class Table:
         >>> t.players = [Player('Eric'), Player('Stephen')]
         >>> t.players[0].hand.hand_list = [Card('H', '8'), Card('C', 'J')]
         >>> t.players[1].hand.hand_list = [Card('S', 'A'), Card('D', 'J')]
-        >>> str(t)
-        'Name: Eric        Hand: X-X J-C                 Stash: 100   Status: play\nName: Stephen     Hand: X-X J-D                 Stash: 100   Status: play\n'
+        >>> str(t)  # doctest: +NORMALIZE_WHITESPACE
+        'Name: Eric        Hand: 8-H J-C                 Stash: 100
+        Status: play\nName: Stephen     Hand: A-S J-D
+        Stash: 100   Status: play\n'
         """
         out_string_list = []
         for player in self.players:
             out_string = ''
-            out_string += 'Name: {:10s}  Hand: X-X '.format(player.name)
-            for card in player.hand.hand_list[1:]:
-                out_string += '{}-{} '.format(card.rank, card.suit).ljust(20)
+            out_string += 'Name: {:10s}  Hand: '.format(player.name)
+            for card in player.hand.hand_list:
+                out_string += '{}-{} '.format(card.rank, card.suit).ljust(24)
             out_string += 'Stash: {}   Status: {}'.format(player.stash.value,
                                                             player.status)
             out_string_list += [out_string]

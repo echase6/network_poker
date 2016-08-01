@@ -16,6 +16,16 @@ import jsonpickle
 PORTS = [8000, 8001]
 
 
+def get_server_ip():
+    """Get the internet IP address."""
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(('gmail.com', 80))
+    ip = s.getsockname()[0]
+    s.close()
+    return ip
+
+
+
 def start_server():
     """This module starts the server sockets for the ports in PORTS.
 
@@ -24,6 +34,7 @@ def start_server():
     """
     sockets = []
     host = "127.0.0.1"
+    # host = get_server_ip()
     print('Host: {}'.format(host))
     print('Ports: {}'.format(PORTS))
     for port in PORTS:
@@ -59,10 +70,10 @@ def answer_from_client(clientsocket):
     return ans_string
 
 
-def send_table_to_client(table, clientsocket):
+def send_table_to_client(table, client):
     """Sends the table to the client for rendering."""
     table_json = jsonpickle.encode(table)
-    clientsocket.send(table_json.encode())
+    client.send(table_json.encode())
 
 
 def main():
