@@ -14,12 +14,16 @@ collect_winnings()
 
 """
 
-from stash import Stash
 from player import Player
 from pot import Pot
 
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+GREEN = (0, 75, 0)
+GOLD = (0, 75, 75)
+RED = (175, 0, 0)
 DENOMINATIONS = ['25', '5', '1']
-COLORS = [(0, 75, 0), (0, 75, 75), (255, 255, 255)]
+DENOM_COLORS = [GREEN, RED, WHITE]
 
 
 def place_bet(amount, player, pot):
@@ -89,5 +93,3 @@ def collect_winnings(player, pot):
     """
     player.stash.value += pot.value
     pot.value = 0
-
-
