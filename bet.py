@@ -13,6 +13,7 @@ def bet_loop(table, clients):
     msg_player_1 = clients[0]
     player_2 = table.players[1]
     msg_player_2 = clients[1]
+
     while player_1.status != 'play' and table.pot != 0:
         message_to_client('Would you like to Fold, Raise, or Check?', msg_player_1)
         response = answer_from_client(msg_player_1)
@@ -23,8 +24,7 @@ def bet_loop(table, clients):
         elif response == 'Raise':
             amount = _ante_raise(msg_player_1, msg_player_1) # raises
             call_or_fold(player_2, msg_player_2, amount, table.pot) # asks player_2 to call or fold, exits loop
-        # elif response == 'Call':
-        #     _ante_call() # calls a raise, shouldn't be used first cycle
+
     while player_2.status != 'play' and table.pot !=0:
         message_to_client('Would you like to Fold, Raise, or Check?', msg_player_2)
         p2_response = answer_from_client(msg_player_2)
@@ -58,6 +58,7 @@ def _call_or_fold(player, msg_player, amount, pot, winner_if_fold):
             pot += player.stash
             player.stash -= player.stash
             player.status = 'play'
+        output = True
     return output
 
 
