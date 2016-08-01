@@ -67,4 +67,11 @@ class Table:
         return '\n\n'.join([out_string_list[0], pot_string, out_string_list[1]])
 
 
+def assign_winner():
+    """Checks the board for a winner and assigns winnings
+
+    """
+    if player.status == fold:
+
+
 

@@ -2,10 +2,15 @@
 
 from player import Player, take_action
 from table import Table
+from deck import draw_card_from_deck
+fromm hand import Hand, generate_hand
 
 
-def round_1(deck, player_1, player_2):
-    """first round"""
+# def start_round_1(deck, table):
+#     """first round"""
+#     for player in table.players:
+#         player.hand= player.hand.append(draw_card_from_deck(deck), draw_card_from_deck(deck), draw_card_from_deck(deck))
+#         buy_in
 
 
 

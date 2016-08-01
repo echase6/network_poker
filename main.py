@@ -1,6 +1,6 @@
 import jsonpickle
 from card import Card, SUITS, RANKS
-from hand import Hand, generate_hand
+from hand import Hand, generate_hand, compare_hands
 from stash import Stash
 from pot import Pot
 from player import Player
@@ -23,10 +23,19 @@ def main():
         print('{} joined'.format(name))
         player = Player(name, PORTS[i])
         player.hand = generate_hand(deck)
+        player.hand.append(draw_card_from_deck(deck))
+        player.hand.append(draw_card_from_deck(deck))
+        player.hand.append(draw_card_from_deck(deck))
         t.players += [player]
     print(str(t))
     for client in clients:
         send_table_to_client(t, client)
+    #
+    for player in t.players:
+        buy_in()
+    winner = compare_hands(t.players[0], t.players[1])
+
+
 
 
 if __name__ == '__main__':
