@@ -82,7 +82,9 @@ def send_table_to_clients(t, clients):
 
 
 def bet_loop_dummy(t, clients):
-    """This is a dummy loop to enable testing while the real loop gets written."""
+    """This is a dummy loop to enable testing while the real loop gets
+    written.
+    """
     for i, client in enumerate(clients):
         message_to_client('Press any key?', client)
         _ = answer_from_client(client)
@@ -132,6 +134,7 @@ def main():
         for i in range(4):
             deal_round(t, deck)
             send_table_to_clients(t, clients)
+            print(str(t))
             if not bet_loop(t, clients):
                 break
         close_out_hand(t, clients)

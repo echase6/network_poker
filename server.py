@@ -25,7 +25,6 @@ def get_server_ip():
     return ip
 
 
-
 def start_server():
     """This module starts the server sockets for the ports in PORTS.
 
