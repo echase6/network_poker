@@ -26,4 +26,4 @@ Major components:
    - find the winning hand
 
    Example of GUI window, displayed on client:
-   ![GUI window](https://github.com/echase6/network_poker/images/GUI_example.jpg)
+   ![GUI window](https://github.com/echase6/network_poker/blob/master/images/GUI_example.jpg)
