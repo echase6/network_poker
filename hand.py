@@ -223,17 +223,11 @@ def _check_for_straight(hand):
     >>> _check_for_straight(Hand([Card('C', '7'), Card('H', '3'), Card('H', '4'), Card('H', '5'), Card('H', '6')]))
     True
     """
-    card_val_list = []
-    for card in hand.hand_list:
-        card_val_list.append(RANKS.index(card.rank))
+    card_val_list = [RANKS.index(card.rank) for card in hand.hand_list]
     card_val_list.sort()
     temp_range = list(range(card_val_list[0], card_val_list[4]+1))
     temp_sort = sorted(card_val_list)
-    if temp_sort == temp_range:
-        output = True
-    else:
-        output = False
-    return output
+    return temp_sort == temp_range
 
 
 def _check_for_royal_flush(hand):
@@ -248,8 +242,7 @@ def _check_for_royal_flush(hand):
     flush = _check_for_flush(hand)
     straight = _check_for_straight(hand)
     royal = _check_royalty(hand)
-    test = [flush, straight, royal]
-    return all(test)
+    return all([flush, straight, royal])
 
 
 def _check_royalty(hand):
