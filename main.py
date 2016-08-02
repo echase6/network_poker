@@ -7,6 +7,7 @@ from pot import Pot
 from player import Player
 from table import Table
 from chip import place_bet, collect_winnings
+from bet import bet_loop
 from deck import Deck, generate_deck, shuffle_the_deck
 from server import start_server, connect_client, message_to_client
 from server import answer_from_client, send_table_to_client, PORTS
@@ -105,7 +106,7 @@ def main():
         for i in range(4):
             deal_round(t, deck)
             send_table_to_clients(t, clients)
-            if not bet_loop_dummy(t, clients):
+            if not bet_loop(t, clients):
                 break
 
         close_out_hand(t, clients)
