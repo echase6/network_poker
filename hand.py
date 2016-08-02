@@ -146,7 +146,9 @@ def _check_for_full_house(hand):
 
 
 def _check_for_three(hand):
-    """checks to see if a players hand has three of a kind
+    """Checks for a three of a kind. Returns a boolean.
+
+
 
     >>> _check_for_three(Hand([Card('H', '10'), Card('C', '10'), Card('S', 'A'), Card('D', '10'), Card('H', 'A')]))
     True
@@ -164,7 +166,9 @@ def _check_for_three(hand):
 
 
 def _check_for_two(hand):
-    """checks to see if a players hand has three of a kind
+    """Checks for a pair. Returns a boolean.
+
+    Groups all of the rank values and checks for a rank with two associated values.
 
     >>> _check_for_two(Hand([Card('H', '10'), Card('C', '9'), Card('S', '3'), Card('D', '10'), Card('H', 'A')]))
     True
@@ -179,7 +183,7 @@ def _check_for_two(hand):
 
 
 def _check_for_straight_flush(hand):
-    """Returns true if a hand has a straight flush in it
+    """Runs a hand against the straight and flush functions to check if it's a straight flush. Returns a boolean.
 
     >>> _check_for_straight_flush(Hand([Card('H', '10'), Card('H', 'J'), Card('H', 'Q'), Card('H', 'K'), Card('H', 'A')]))
     True
@@ -188,15 +192,11 @@ def _check_for_straight_flush(hand):
     """
     flush = _check_for_flush(hand)
     straight = _check_for_straight(hand)
-    if flush == True and straight == True:
-        output = True
-    else:
-        output = False
-    return output
+    return all([straight, flush])
 
 
 def _check_for_flush(hand):
-    """checks a hand for a flush
+    """Checks for the presence of a flush. Returns a boolean.
 
     >>> _check_for_flush(Hand([Card('H', '10'), Card('H', 'J'), Card('H', 'Q'), Card('H', 'K'), Card('H', 'A')]))
     True
@@ -210,7 +210,10 @@ def _check_for_flush(hand):
 
 
 def _check_for_straight(hand):
-    """runs a test against a hand to see if there is a straight
+    """Checks for the presence of a straight. Returns a boolean.
+
+    Puts all of the ranks in a list, sorts the list, compares that list to a range based on the first and last element,
+    if the list matches the range the function returns True.
 
     >>> _check_for_straight(Hand([Card('C', '10'), Card('H', 'J'), Card('H', 'Q'), Card('H', 'K'), Card('H', 'A')]))
     True
@@ -235,7 +238,7 @@ def _check_for_straight(hand):
 
 
 def _check_for_royal_flush(hand):
-    """tests for a royal flush
+    """Checks for a flush, straight, and ace to see if the hand has a royal flush. Returns a boolean.
 
     >>> _check_for_royal_flush(Hand([Card('H', '10'), Card('H', 'J'), Card('H', 'Q'), Card('H', 'K'), Card('H', 'A')]))
     True
@@ -251,7 +254,9 @@ def _check_for_royal_flush(hand):
 
 
 def _check_royalty(hand):
-    """checks if a hand contains only royal cards
+    """Checks for the presence of an Ace in a hand. Returns a boolean.
+
+    If a hand contains a straight and a flush the last thing to check is for an Ace to prove that it's a royal flush.
 
     >>> _check_royalty(Hand([Card('H', '10'), Card('H', 'J'), Card('H', 'Q'), Card('H', 'K'), Card('H', 'A')]))
     True
@@ -275,12 +280,8 @@ def group_by(iterable, key):
     return group_to_items
 
 
-def _group_by_length(grouping):
-    """simplifies the group by output when checking for pairs/triplets/quads"""
-
-
 def rank_key(card):
-    """generates a key for the group by function
+    """Generates a key for the group by function
 
     >>> rank_key(Card('C', '10'))
     '10'
