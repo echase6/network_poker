@@ -1,4 +1,11 @@
-"""a class for storing poker hands"""
+"""The Hand class for the Network Poker game.
+
+Hands contain a list of Card class instances.
+
+generate_hand() creates a new hand instance with two cards.
+compare_hands() runs both hands through a series of functions that assign numerical values and returns p1 or p2 as the
+winner of the round.
+"""
 
 from deck import Deck
 from deck import draw_card_from_deck
@@ -13,6 +20,7 @@ class Hand:
 
     def __eq__(self, other):
         """Return eq
+
         >>> (
         ... Hand([Card('H', '5'), Card('C', '2')]) ==
         ... Hand([Card('H', '5'), Card('C', '2')])
@@ -30,6 +38,7 @@ class Hand:
 
     def __repr__(self):
         """Return repr.
+
         >>> repr(Hand([Card('H', '5'), Card('C', '2')]))
         "Hand([Card('H', '5'), Card('C', '2')])"
         """
@@ -39,7 +48,8 @@ class Hand:
 
 
 def generate_hand(deck):
-    """adds a card to a hand
+    """Creates a new instance of the hand class and assigns it two cards from the deck.
+
     >>> generate_hand(Deck([Card('H', '7'), Card('H', '8')]))
     Hand([Card('H', '8'), Card('H', '7')])
     """
@@ -47,7 +57,9 @@ def generate_hand(deck):
 
 
 def compare_hands(hand_1, hand_2):
-    """takes two hands and checks for a winner"""
+    """Runs two hands through the assign rank function and compares their values. Returns 'P1' or 'p2'
+    p2 wins by default if there is a tie.
+    """
     hand_1_score = _assign_hand_rank(hand_1)
     hand_2_score = _assign_hand_rank(hand_2)
     if hand_1_score > hand_2_score:
@@ -58,7 +70,7 @@ def compare_hands(hand_1, hand_2):
 
 
 def _assign_hand_rank(hand):
-    """Assigns a hand a rank for future comparison
+    """Assigns a hand a rank for comparison vs. the other player. Returns an integer.
 
     >>> _assign_hand_rank(Hand([Card('H', '9'), Card('C', '10'), Card('S', '10'), Card('D', '10'), Card('H', 'A')]))
     4
@@ -88,7 +100,7 @@ def _assign_hand_rank(hand):
     return score
 
 def _check_for_2_pair(hand):
-    """checks for the presence
+    """Checks for the presence of two pairs in a hand. Returns a boolean.
 
     >>> _check_for_2_pair(Hand([Card('H', '10'), Card('C', '10'), Card('S', 'A'), Card('D', '9'), Card('H', 'A')]))
     True
@@ -103,7 +115,7 @@ def _check_for_2_pair(hand):
 
 
 def _check_for_4_of_a_kind(hand):
-    """checks to see if the hand has four like cards
+    """Groups the cards by rank and checks for any rank that has 4 items. Returns a boolean.
 
     >>> _check_for_4_of_a_kind(Hand([Card('H', '10'), Card('C', '10'), Card('S', '10'), Card('D', '10'), Card('H', 'A')]))
     True
@@ -117,7 +129,7 @@ def _check_for_4_of_a_kind(hand):
 
 
 def _check_for_full_house(hand):
-    """checks to see if there is a full house in the hand
+    """Checks to see if a hand contains three of one card and two of another card. Returns a boolean.
 
     >>> _check_for_full_house(Hand([Card('H', '10'), Card('C', '10'), Card('S', 'A'), Card('D', '10'), Card('H', 'A')]))
     True

@@ -1,4 +1,4 @@
-"""sets up the Card class and functions for the Network Poker game"""
+"""The card Module of the Poker game. An instance of this class only contains the suit and rank."""
 
 SUITS = ['H', 'D', 'C', 'S']
 RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
