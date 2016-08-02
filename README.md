@@ -5,18 +5,33 @@ to display cards and chips.
 
 Collaborative project between Stephen Muller and Eric Chase.
 
+Instructions to run:
+- On server machine:  python main.py
+  - Note address of server (127.0.0.1 as default)
+- On first client machine:  python server.py
+  - Enter address of server
+  - Enter port number (8000)
+- On second client machine:  python server.py
+  - Enter address of server
+  - Enter port number (8001)
+- Each player gets a GUI representing the table
+- Each player responds to command-line prompts
+- Game is over when either:
+  - One player runs out of chips
+  - Either player responds (after a hand) that they do not want to continue
 
-Major components:
+Major components of the programs:
 - Deck management
   - shuffle
   - dealing cards
 - Stash and Pot management
    - tracking amounts per player
    - tracking bets per player
-- Network implementation
+- Network implementation (uses python socket, in stream mode)
    - client
    - server
-- GUI
+   - information protocol (uses JSONpickle for table information)
+- GUI (uses PIL and Tkinter)
    - cards
    - chips
    - table
