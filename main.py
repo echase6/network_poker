@@ -1,14 +1,40 @@
+"""Network Poker project.
+
+This is a collaborative project between Stephen Muller and Eric Chase.
+
+Usage:
+  -- Run main.py on the machine that is to be the server.
+     It will reply with its address.  This can be changed from localhost
+       to an external IP in the start_server() module in server.py
+  -- Run client.py on a machine that is to be one of the clients (players).
+     It will ask for a host address; this is the one the server gave (above).
+     First client should choose port 8000.
+  -- Run client.py on a second machine for the 2nd player.
+     Enter the host address and port 8001.
+  Note:  Both clients will see a GUI and I/O message/response is through
+     the command-line.
+
+Modules:
+  connect_to_clients() -- establishes connections to clients and gets names.
+  buy_in() -- moves buy-in amount from players to pot to begin round.
+  deal_round() -- deal cards to the players
+  send_table_to_clients() -- sent table info to both clients for rendering
+  bet_loop_dummy() -- test betting loop to exercise functions w/o actual betting
+  close_out_hand() -- find winner, distribute winnings, and inform players
+  test_for_next_round() -- find out if another round is to be played
+"""
+
+
 import jsonpickle
 from card import Card, SUITS, RANKS
 from hand import Hand, generate_hand, compare_hands
-from deck import draw_card_from_deck
 from stash import Stash
 from pot import Pot
 from player import Player
 from table import Table
 from chip import place_bet, collect_winnings
 from bet import bet_loop
-from deck import Deck, generate_deck, shuffle_the_deck
+from deck import Deck, generate_deck, shuffle_the_deck, draw_card_from_deck
 from server import start_server, connect_client, message_to_client
 from server import answer_from_client, send_table_to_client, PORTS
 
@@ -108,7 +134,6 @@ def main():
             send_table_to_clients(t, clients)
             if not bet_loop(t, clients):
                 break
-
         close_out_hand(t, clients)
         keep_playing = test_for_next_hand(t, clients)
 

@@ -2,15 +2,29 @@
 
 This is purely a rendering (display) function.  No inputs are taken.
 
+Entities to manage:
+ -- Canvas, which is what Tkinter displays in a window
+ -- Overall table image, which gets (items below) pasted onto.
+ -- Player names
+ -- Cards
+ -- Chips (and associated trays)
+
 display_image() -- updates the display
 display_blank_table() -- shows a blank table (just the felt)
 display_card() -- displays one card on the table
-display_name() -- displays the name on the table
-get_card_image() -- gets an image of the card face
-get_card_back() -- gets an image of the back of a card
-make_chip_tray() -- creates an image of a chip tray, based on value
+display_name() -- displays the player name on the table
 display_chip_tray() -- displays the chip tray for an individual player
 display_pot_tray() -- displays the pot tray
+
+calc_card_row_col() -- find the row and column in card images
+calc_card_crop_box() -- calculate the box to crop out the card image
+get_card_image() -- gets an image of the card face
+get_card_back() -- gets an image of the back of a card
+
+calc_chip_box() -- determine the location (in tray) to display one chip
+calc_chip_text_box() -- determine the location of the chip label
+make_chip_tray() -- create the chip tray, either for players or the pot
+
 update_table() -- updates the entire table (cards, names, chip trays)
 """
 
@@ -41,9 +55,7 @@ def display_window():
     window_handle = Tk()
     window_handle.wm_title('Networked Poker Game')
     canvas = Canvas(window_handle, width=1000, height=600)
-    # table_img = Image.open('./images/poker-table-felt.jpg')
-    # display_image(canvas, table_img)
-    return canvas  #, table_img
+    return canvas
 
 
 def display_card(canvas, table_img, index, player_index, card_im):
@@ -164,7 +176,7 @@ def update_table(table, canvas, table_img, port):
 
     Items to display: Name, chip tray, pot, cards
     """
-    if len(table.players[0].hand.hand_list) == 2:
+    if len(table.players[0].hand.hand_list) == 2:  # New hand -> clear table
         blank_img = Image.open('./images/poker-table-felt.jpg')
         table_img.paste(blank_img, (0, 0))
     display_image(canvas, table_img)
@@ -173,17 +185,15 @@ def update_table(table, canvas, table_img, port):
         display_chip_tray(canvas, table_img, player.stash.value, player_index)
         display_pot_tray(canvas, table_img, table.pot.value)
         for card_index, card in enumerate(player.hand.hand_list):
-            if player.port != port and card_index == 0 and table.pot.value != 0:  # Opponent's 1st card
-                card_img = get_card_back()
+            if player.port != port and card_index == 0 and table.pot.value != 0:
+                card_img = get_card_back()  # Hide opponent's first card
             else:
                 card_img = get_card_image(card)
             display_card(canvas, table_img, card_index, player_index, card_img)
-        # if table.pot.value == 0:  # This means reveal the hidden cards
-        #     card_img = get_card_image(player.hand.hand_list[1 - player_index])
-        #     display_card(canvas, table_img, 0, 1 - player_index, card_img)
 
 
 def main():
+    """This is purely for testing purposes."""
     canvas, table_img = display_blank_table()
     display_name(canvas, table_img, 'Eric', 0)
     display_chip_tray(canvas, table_img, 137, 0)

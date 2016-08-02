@@ -1,17 +1,21 @@
 """Client main and modules for communicating with server and displaying table.
 
-Hard-coded to work with a fixed address and port, entered at startup.
+Run this module on the client computers (i.e., computers for each player)
+
+Hard-coded to work with a fixed address, entered at startup.  This can be
+  changed in the connect_to_server() module.
+Valid ports are 8000 and 8001.  It is more stable if they are the order of the
+  connecting clients, although not 100% necessary.
+
 
 connect_to_server() connects the client to the server
 message_from_server() displays a message from the server
 answer_to_server() inquires the user and sends the response to the server
 render_table() unpacks the shipped JSON version of the table and displays it
 process_server_message() interprets the incoming info and acts appropriately
-
 """
 
 from PIL import Image, ImageTk, ImageFont, ImageDraw
-# from tkinter import PhotoImage, Tk, Canvas
 from card import SUITS, RANKS
 from chip import calc_chips, DENOMINATIONS, DENOM_COLORS
 from client_gui import display_image, display_card
@@ -32,7 +36,8 @@ def connect_to_server():
     Returns individual serversocket for communication.
     """
     host = input('Host address: ')
-    host = '127.0.0.1'
+    if host == '':
+        host = '127.0.0.1'
     port = int(input('Port number: '))
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.connect((host, port))
@@ -54,9 +59,9 @@ def process_server_message(msg, server, canvas, table_img, port):
     """Analyzes and acts on the content of a message from the server.
 
     Valid actions are:
-      rendering a table (Table JSON was sent)
-      asking a question and sending response to server (msg ends with a ?)
-      displaying a message
+      rendering a table (Table JSON was sent, starts with a {)
+      asking a question and sending response to server (msg contains a ?)
+      displaying a message (if above not true)
     """
     if msg[0] == '{':
         table = jsonpickle.decode(msg)

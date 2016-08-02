@@ -60,7 +60,7 @@ class Table:
         for player in self.players:
             out_string = ''
             out_string += 'Name: {:10s}  Hand: '.format(player.name)
-            for card in player.hand.hand_list:
+            for card in player.hand.hand_list[0:]:
                 out_string += '{}-{} '.format(card.rank, card.suit).ljust(24)
             out_string += 'Stash: {}   Status: {}'.format(player.stash.value,
                                                             player.status)
