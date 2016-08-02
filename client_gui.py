@@ -30,20 +30,20 @@ def display_image(canvas, table_img):
 
     Updates canvas and table_img in-place.
     """
-    photo_image = ImageTk.PhotoImage(table_img)
+    photo_img = ImageTk.PhotoImage(table_img)
     canvas.pack()
-    canvas.create_image(500, 300, image=photo_image)
+    canvas.create_image(500, 300, image=photo_img)
     canvas.update()
 
 
 def display_window():
     """Open the window to show an empty table."""
-    table_img = Image.open('./images/poker-table-felt.jpg')
     window_handle = Tk()
     window_handle.wm_title('Networked Poker Game')
     canvas = Canvas(window_handle, width=1000, height=600)
-    display_image(canvas, table_img)
-    return canvas, table_img
+    # table_img = Image.open('./images/poker-table-felt.jpg')
+    # display_image(canvas, table_img)
+    return canvas  #, table_img
 
 
 def display_card(canvas, table_img, index, player_index, card_im):
@@ -164,18 +164,23 @@ def update_table(table, canvas, table_img, port):
 
     Items to display: Name, chip tray, pot, cards
     """
-    table_img = Image.open('./images/poker-table-felt.jpg')
+    if len(table.players[0].hand.hand_list) == 2:
+        blank_img = Image.open('./images/poker-table-felt.jpg')
+        table_img.paste(blank_img, (0, 0))
     display_image(canvas, table_img)
     for player_index, player in enumerate(table.players):
         display_name(canvas, table_img, player.name, player_index)
         display_chip_tray(canvas, table_img, player.stash.value, player_index)
         display_pot_tray(canvas, table_img, table.pot.value)
         for card_index, card in enumerate(player.hand.hand_list):
-            if player.port != port and card_index == 0:
+            if player.port != port and card_index == 0 and table.pot.value != 0:  # Opponent's 1st card
                 card_img = get_card_back()
             else:
                 card_img = get_card_image(card)
             display_card(canvas, table_img, card_index, player_index, card_img)
+        # if table.pot.value == 0:  # This means reveal the hidden cards
+        #     card_img = get_card_image(player.hand.hand_list[1 - player_index])
+        #     display_card(canvas, table_img, 0, 1 - player_index, card_img)
 
 
 def main():

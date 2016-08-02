@@ -66,7 +66,7 @@ def answer_from_client(clientsocket):
 
     Returns string that client entered.
     """
-    ans_string = clientsocket.recv(1024).decode()
+    ans_string = clientsocket.recv(2048).decode()
     return ans_string
 
 

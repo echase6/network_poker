@@ -65,11 +65,17 @@ def bet_loop_dummy(t, clients):
 
 def close_out_hand(t, clients):
     """Close out the hand, find the winner, distribute the winnings."""
+
     winner = compare_hands(t.players[0].hand, t.players[1].hand)
     if winner == 'P1':
         collect_winnings(t.players[0], t.pot)
+        winner_name = t.players[0].name
     else:
         collect_winnings(t.players[1], t.pot)
+        winner_name = t.players[1].name
+    send_table_to_clients(t, clients)
+    for index, client in enumerate(clients):
+        message_to_client('{} wins!\n'.format(winner_name), client)
 
 
 def test_for_next_hand(t, clients):
@@ -95,14 +101,14 @@ def main():
         shuffle_the_deck(deck)
         buy_in(t, 10)
         for player in t.players:
-            player.hand = generate_hand(deck)
+            player.hand.hand_list = []
         for i in range(4):
             deal_round(t, deck)
             send_table_to_clients(t, clients)
             if not bet_loop_dummy(t, clients):
                 break
+
         close_out_hand(t, clients)
-        send_table_to_clients(t, clients)
         keep_playing = test_for_next_hand(t, clients)
 
 
