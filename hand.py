@@ -141,10 +141,10 @@ def _check_for_full_house(hand):
     grouping = group_by(hand.hand_list, rank_key)
     for item in grouping:
         grouping[item] = len(grouping[item])
-    output = (
+    return (
         any(grouping[item] == 3 for item in grouping) and
-        any(grouping[item] == 2 for item in grouping))
-    return output
+        any(grouping[item] == 2 for item in grouping)
+    )
 
 
 def _check_for_three(hand):
@@ -176,8 +176,7 @@ def _check_for_two(hand):
     grouping = group_by(hand.hand_list, rank_key)
     for item in grouping:
         grouping[item] = len(grouping[item])
-    output = any(grouping[item] == 2 for item in grouping)
-    return output
+    return any(grouping[item] == 2 for item in grouping)
 
 
 def _check_for_straight_flush(hand):
