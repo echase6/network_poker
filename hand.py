@@ -15,6 +15,7 @@ RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 
 
 class Hand:
+    """Hand Class"""
     def __init__(self, hand_list):
         self.hand_list = hand_list
 
@@ -99,6 +100,7 @@ def _assign_hand_rank(hand):
         score = 1
     return score
 
+
 def _check_for_2_pair(hand):
     """Checks for the presence of two pairs in a hand. Returns a boolean.
 
@@ -117,9 +119,9 @@ def _check_for_2_pair(hand):
 def _check_for_4_of_a_kind(hand):
     """Groups the cards by rank and checks for any rank that has 4 items. Returns a boolean.
 
-    >>> _check_for_4_of_a_kind(Hand([Card('H', '10'), Card('C', '10'), Card('S', '10'), Card('D', '10'), Card('H', 'A')]))
+    >>> _check_for_4_of_a_kind(Hand([Card('H', '9'), Card('C', '9'), Card('S', '9'), Card('D', '9'), Card('H', 'A')]))
     True
-    >>> _check_for_4_of_a_kind(Hand([Card('H', '9'), Card('C', '10'), Card('S', '10'), Card('D', '10'), Card('H', 'A')]))
+    >>> _check_for_4_of_a_kind(Hand([Card('H', '9'), Card('C', 'A'), Card('S', '5'), Card('D', '4'), Card('H', 'A')]))
     False
     """
     grouping = group_by(hand.hand_list, rank_key)
@@ -181,9 +183,11 @@ def _check_for_two(hand):
 def _check_for_straight_flush(hand):
     """Runs a hand against the straight and flush functions to check if it's a straight flush. Returns a boolean.
 
-    >>> _check_for_straight_flush(Hand([Card('H', '10'), Card('H', 'J'), Card('H', 'Q'), Card('H', 'K'), Card('H', 'A')]))
+    >>> _check_for_straight_flush(Hand(
+    ... [Card('H', '10'), Card('H', 'J'), Card('H', 'Q'), Card('H', 'K'), Card('H', 'A')]))
     True
-    >>> _check_for_straight_flush(Hand([Card('C', '10'), Card('H', 'J'), Card('H', 'Q'), Card('H', 'K'), Card('H', 'A')]))
+    >>> _check_for_straight_flush(Hand(
+    ... [Card('C', '10'), Card('H', 'J'), Card('H', 'Q'), Card('H', 'K'), Card('H', 'A')]))
     False
     """
     flush = _check_for_flush(hand)
@@ -201,8 +205,7 @@ def _check_for_flush(hand):
     False
     """
     suit_checker = hand.hand_list[0].suit
-    truth_check = all(card.suit == suit_checker for card in hand.hand_list)
-    return truth_check
+    return all(card.suit == suit_checker for card in hand.hand_list)
 
 
 def _check_for_straight(hand):
