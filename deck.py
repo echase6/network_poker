@@ -49,10 +49,11 @@ def generate_deck(suits, ranks):
     >>> generate_deck(['H', 'D'], ['1', '2', '3'])
     Deck([Card('H', '1'), Card('H', '2'), Card('H', '3'), Card('D', '1'), Card('D', '2'), Card('D', '3')])
     """
-    new_list = []
-    for suit in suits:
-        for rank in ranks:
-            new_list += [Card(suit, rank)]
+    new_list = [
+        Card(suit, rank)
+        for suit in suits
+        for rank in ranks
+    ]
     return Deck(new_list)
 
 
