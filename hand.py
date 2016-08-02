@@ -148,21 +148,17 @@ def _check_for_full_house(hand):
 def _check_for_three(hand):
     """Checks for a three of a kind. Returns a boolean.
 
-
+    Groups the cards by ranks, checks if any rank has three values in the list.
 
     >>> _check_for_three(Hand([Card('H', '10'), Card('C', '10'), Card('S', 'A'), Card('D', '10'), Card('H', 'A')]))
     True
     >>> _check_for_three(Hand([Card('H', '9'), Card('C', '5'), Card('S', '10'), Card('D', '10'), Card('H', 'A')]))
     False
     """
-    output = False
     grouping = group_by(hand.hand_list, rank_key)
     for item in grouping:
         grouping[item] = len(grouping[item])
-    for item in grouping:
-        if grouping[item] == 3:
-            output = True
-    return output
+    return any(grouping[item] == 3 for item in grouping)
 
 
 def _check_for_two(hand):
