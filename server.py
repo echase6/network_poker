@@ -76,6 +76,7 @@ def send_table_to_client(table, client):
 
 
 def main():
+    """This is for testing purposes only.  Run main.py on the server."""
     sockets = start_server()
     clients = [connect_client(s) for s in sockets]
     for c in clients:
