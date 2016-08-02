@@ -1,4 +1,7 @@
-"""A class for storing the burn pile on the poker table, cards in it are stored in a list and not intended to be shown
+"""##NOT USED##
+
+
+A class for storing the burn pile on the poker table, cards in it are stored in a list and not intended to be shown
 during the course of the game"""
 
 from card import Card
