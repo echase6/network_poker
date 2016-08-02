@@ -7,7 +7,12 @@ from server import message_to_client, answer_from_client
 
 
 def bet_loop(table, clients):
-    """The meta bet loop"""
+    """The betting loop
+
+    Loop runs 4 times during the game, after cards are dished out. Players come in with the status 'play' and are
+    modified in place to exit out of the betting loop(s). When the pot is 0 it bails out of the loop and that is used to
+    start the next round of the game.
+    """
     output = True  # only changes if someone folds
     player_1 = table.players[0]
     msg_player_1 = clients[0]
@@ -42,7 +47,7 @@ def bet_loop(table, clients):
 
 
 def _ante_raise(player, msg_player, pot):
-    """asks the client how much to raise, raises the pot, returns bet amount to ask the other player"""
+    """asks the client how much to raise, moves money to the pot, returns bet amount to ask the other player"""
     message_to_client('How much would you like to raise by?', msg_player)
     amount = int(answer_from_client(msg_player))
     place_bet(amount, player, pot)
@@ -50,7 +55,10 @@ def _ante_raise(player, msg_player, pot):
 
 
 def _call_or_fold(player, msg_player, amount, pot, winner_if_fold):
-    """Asks a player to call or fold"""
+    """Asks a player to call or fold
+
+    Fold assigns winnings to the other player, sets pot to 0 which ends both while loops. call 
+    """
     message_to_client('The pot has been raised by {}, would you like to Call or Fold?'.format(amount), msg_player)
     response = answer_from_client(msg_player)
     if response[0].lower == 'f':
