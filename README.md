@@ -6,12 +6,15 @@ to display cards and chips.
 Collaborative project between Stephen Muller and Eric Chase.
 
 Instructions to run:
-- On server machine:  python main.py
+- On server machine:  
+    C:\> python main.py
   - Note address of server (127.0.0.1 as default)
-- On first client machine:  python server.py
+- On first client machine:  
+    C:\> python client.py
   - Enter address of server
   - Enter port number (8000)
-- On second client machine:  python server.py
+- On second client machine:  
+    C:\> python client.py
   - Enter address of server
   - Enter port number (8001)
 - Each player gets a GUI representing the table
