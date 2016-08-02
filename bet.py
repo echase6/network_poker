@@ -1,4 +1,7 @@
-"""A module for the network poker app that contains various functions for the betting loop of the game"""
+"""A module for the network poker app that contains various functions for the betting loop of the game
+
+The only externally reachable function is bet_loop which is called after each dealing phase of the game.
+"""
 
 from player import Player
 from table import Table
@@ -7,13 +10,18 @@ from server import message_to_client, answer_from_client
 
 
 def bet_loop(table, clients):
-    """The meta bet loop"""
+    """The betting loop
+
+    Loop runs 4 times during the game, after cards are dished out. Players come in with the status 'play' and are
+    modified in place to exit out of the betting loop(s). When the pot is 0 it bails out of the loop and that is used to
+    start the next round of the game.
+    """
     output = True  # only changes if someone folds
-    player_1 = table.players[0]
+    player_1 = table.players[0]  # makes calling the player and the player 'sockets' simpler
     msg_player_1 = clients[0]
     player_2 = table.players[1]
     msg_player_2 = clients[1]
-    player_1.status = 'bet'
+    player_1.status = 'bet'  # sets both players to 'bet' so that the while loops will run
     player_2.status = 'bet'
 
     while player_1.status != 'play' and table.pot.value != 0:
@@ -42,7 +50,7 @@ def bet_loop(table, clients):
 
 
 def _ante_raise(player, msg_player, pot):
-    """asks the client how much to raise, raises the pot, returns bet amount to ask the other player"""
+    """asks the client how much to raise, moves money to the pot, returns bet amount to ask the other player"""
     message_to_client('How much would you like to raise by?', msg_player)
     amount = int(answer_from_client(msg_player))
     place_bet(amount, player, pot)
@@ -50,7 +58,14 @@ def _ante_raise(player, msg_player, pot):
 
 
 def _call_or_fold(player, msg_player, amount, pot, winner_if_fold):
-    """Asks a player to call or fold"""
+    """Asks a player to call or fold
+
+    if:
+    Fold assigns winnings to the other player, sets pot to 0 which ends both while loops. Returns False which is checked
+    by the containing loop to decide how to proceed.
+    Else:
+    Call bets the same amount as the other player, or the rest of their stash if < bet placed.
+    """
     message_to_client('The pot has been raised by {}, would you like to Call or Fold?'.format(amount), msg_player)
     response = answer_from_client(msg_player)
     if response[0].lower == 'f':
