@@ -7,34 +7,23 @@ Collaborative project between Stephen Muller and Eric Chase.
 
 
 Major components:
--- Deck management
-   -- shuffle
-   -- dealing cards
--- Bank management
-   -- tracking amounts per player
-   -- tracking bets per player
--- Network implementation
-   -- client
-   -- server
--- GUI
-   -- cards
-   -- chips
-   -- table
--- Computer player
-   -- codify intelligent card-play
-   -- codify intelligent betting
+- Deck management
+  - shuffle
+  - dealing cards
+- Stash and Pot management
+   - tracking amounts per player
+   - tracking bets per player
+- Network implementation
+   - client
+   - server
+- GUI
+   - cards
+   - chips
+   - table
+- Game loop
+   - hand-off between dealing cards and placing bets
+   - decision tree, asking for player decision based on other player's move
+   - find the winning hand
 
- Workflow:
--- define data structures
-    -- card
-    -- hand
-    -- player
-    -- stash
-    -- table
--- implement deck management
--- implement rudimentary GUI
--- implement stash management
--- implement game logic (one hand)
--- write master loop
--- (for Network)
-   -- define data structure necessary to pass between
+   Example of GUI window, displayed on client:
+   ![GUI window](https://github.com/echase6/network_poker/images/GUI_example.jpg)
